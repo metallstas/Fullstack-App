@@ -5,6 +5,7 @@ import mongoose from 'mongoose'
 import { validationResult } from 'express-validator'
 
 import UserModel from './models/User.js'
+import checkAuth from './utils/checkAuth.js'
 import { registerValidation } from './validations/auth.js'
 
 mongoose
@@ -101,6 +102,27 @@ app.post('/auth/register', registerValidation, async (req, res) => {
         console.log(error)
         res.status(500).json({
             message: 'Не удалось зарегистрироваться',
+        })
+    }
+})
+
+app.get('/auth/me', checkAuth, async (req, res) => {
+    try {
+        const user = await UserModel.findById(req.userId)
+
+        if (!user) {
+            return res.status(404).json({
+                message: 'Пользователь не найдей',
+            })
+        }
+
+        const { passwordHash, ...userData } = user._doc
+
+        res.json(userData)
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            message: error,
         })
     }
 })
