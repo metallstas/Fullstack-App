@@ -26,10 +26,10 @@ app.post('/auth/register', registerValidation, UserController.register)
 app.get('/auth/me', checkAuth, UserController.getMe)
 
 app.get('/posts', PostController.getAll)
-// app.get('/posts/:id', PostController.getOne)
+app.get('/posts/:id', PostController.getOne)
 app.post('/posts', checkAuth, postValidation, PostController.create)
-// app.delete('/posts:id', PostController.remove)
-// app.patch('/posts:id', checkAuth, PostController.update)
+app.delete('/posts/:id', checkAuth, PostController.remove)
+app.patch('/posts/:id', checkAuth, PostController.update)
 
 app.listen(4444, (err) => {
     if (err) {
