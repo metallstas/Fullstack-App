@@ -1,6 +1,7 @@
 import express from 'express'
 import multer from 'multer'
 import mongoose from 'mongoose'
+import cors from 'cors'
 import * as UserController from './controllers/UserController.js'
 import * as PostController from './controllers/PostController.js'
 import handleValidationError from './utils/handleValidationError.js'
@@ -33,6 +34,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage })
 
 app.use(express.json())
+app.use(cors())
 app.use('/upload', express.static('uploads'))
 
 app.post(
