@@ -1,9 +1,22 @@
 import PostModel from '../models/Post.js'
 
+export const getLastTags = async (req, res) => {
+    try {
+        const posts = await PostModel.find().limit(5).exec()
+
+        const tags = posts.map((post) => post.tags)
+        res.json(tags.flat())
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            message: 'Не удалось получить статьи',
+        })
+    }
+}
+
 export const getAll = async (req, res) => {
     try {
         const posts = await PostModel.find().populate('author').exec()
-        console.log(posts)
         res.json(posts)
     } catch (error) {
         console.log(error)
