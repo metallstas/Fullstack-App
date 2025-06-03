@@ -16,6 +16,7 @@ export const getLastTags = async (req, res) => {
 
 export const getAll = async (req, res) => {
     try {
+        console.log(req)
         const posts = await PostModel.find().populate('author').exec()
         res.json(posts)
     } catch (error) {
