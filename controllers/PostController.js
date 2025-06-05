@@ -38,7 +38,7 @@ export const getOne = async (req, res) => {
                 $inc: { viewsCount: 1 },
             },
             {
-                new: true,
+                new: false,
             }
         ).then((post) => {
             if (!post) {
