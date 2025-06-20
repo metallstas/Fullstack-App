@@ -23,7 +23,7 @@ const app = express()
 
 const storage = multer.diskStorage({
     destination: (_, __, cb) => {
-        cb(null, 'uploads')
+        cb(null, 'upload')
     },
 
     filename: (_, file, cb) => {
@@ -35,7 +35,7 @@ const upload = multer({ storage })
 
 app.use(express.json())
 app.use(cors())
-app.use('/upload', express.static('uploads'))
+app.use('/upload', express.static('upload'))
 
 app.post(
     '/auth/login',
@@ -53,13 +53,13 @@ app.get('/auth/me', checkAuth, UserController.getMe)
 
 app.post('/upload', checkAuth, upload.single('image'), (req, res) => {
     res.json({
-        url: `/upload/${req.file.originalname}`,
+        urlImage: `/upload/${req.file.originalname}`,
     })
 })
 
 app.get('/tags', PostController.getLastTags)
-app.get('/posts', PostController.getAll)
 app.get('/posts/:id', PostController.getOne)
+app.get('/posts', PostController.getAll)
 app.post(
     '/posts',
     checkAuth,

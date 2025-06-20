@@ -56,9 +56,8 @@ export const login = async (req, res) => {
         )
 
         if (!isValidPass) {
-            return res
-                .status(400)
-                .json({ message: 'Неверный логин или пароль' })
+            res.status(400).json({ message: 'Неверный логин или пароль' })
+            return
         }
 
         const token = jwt.sign(

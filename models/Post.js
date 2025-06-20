@@ -23,6 +23,10 @@ const PostShema = new mongoose.Schema(
             ref: 'User',
             require: true,
         },
+        imageUrl: {
+            type: String,
+            default: '',
+        },
     },
     {
         timestamps: true,

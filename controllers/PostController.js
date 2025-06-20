@@ -28,6 +28,44 @@ export const getAll = async (req, res) => {
 }
 
 export const getOne = async (req, res) => {
+    // try {
+    //     const postId = req.params.id
+
+    //     PostModel.findOneAndUpdate(
+    //         {
+    //             _id: postId,
+    //         },
+    //         {
+    //             $inc: { viewsCount: 1 },
+    //         },
+    //         {
+    //             returnDocument: 'after',
+    //         },
+    //         (err, doc) => {
+    //             if (err) {
+    //                 console.log(err)
+    //                 res.status(500).json({
+    //                     message: 'Не удалось вернуть статью',
+    //                 })
+    //                 return
+    //             }
+
+    //             if (!doc) {
+    //                 res.status(404).json({
+    //                     message: 'Статья не найдена',
+    //                 })
+    //                 return
+    //             }
+
+    //             res.json(doc)
+    //         }
+    //     ).populate('user')
+    // } catch (err) {
+    //     console.log(err)
+    //     res.status(500).json({
+    //         message: 'Не удалось получить статью',
+    //     })
+    // }
     try {
         const postId = req.params.id
         PostModel.findOneAndUpdate(
@@ -39,6 +77,8 @@ export const getOne = async (req, res) => {
             },
             {
                 new: false,
+                returnDocument: 'after',
+                upsert: true,
             }
         ).then((post) => {
             if (!post) {
@@ -46,7 +86,6 @@ export const getOne = async (req, res) => {
                     message: 'Статья не найдена',
                 })
             }
-
             res.json(post)
         })
     } catch (error) {
